@@ -22,7 +22,6 @@ THIS SOFTWARE IS PROVIDED BY TOM IRVING "AS IS" AND ANY EXPRESS OR IMPLIED WARRA
 
   s.author       = { "Devang Mundhra" => "devangmundhra@gmail.com" }
   s.source       = { :git => "https://github.com/devangmundhra/TITokenField.git", :tag => "0.9.1" }
-  s.platform     = :ios
-  s.ios.deployment_target = "6.0"
+  s.platform     = :ios, '6.0'
   s.source_files = "TITokenField.{h,m}"
 end
