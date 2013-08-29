@@ -48,40 +48,22 @@
 - (CGFloat)tokenField:(TITokenField *)tokenField resultsTableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
-@interface TITokenFieldInternalDelegate : NSObject <UITextFieldDelegate> {
-	
-	id <UITextFieldDelegate> delegate;
-	TITokenField * tokenField;
-}
-
+@interface TITokenFieldInternalDelegate : NSObject <UITextFieldDelegate>
 @end
 
 //==========================================================
 #pragma mark - TITokenFieldView -
 //==========================================================
-@interface TITokenFieldView : UIScrollView <UITableViewDelegate, UITableViewDataSource, TITokenFieldDelegate> {
-	
-	BOOL showAlreadyTokenized;
-	
-	UIView * separator;
-	UITableView * resultsTable;
-	UIView * contentView;
-	
-	NSArray * sourceArray;
-	NSMutableArray * resultsArray;
-	
-	TITokenField * tokenField;
-	
-	UIPopoverController * popoverController;
-}
-
+@interface TITokenFieldView : UIScrollView <UITableViewDelegate, UITableViewDataSource, TITokenFieldDelegate>
 @property (nonatomic, assign) BOOL showAlreadyTokenized;
+@property (nonatomic, assign) BOOL searchSubtitles;
+@property (nonatomic, assign) BOOL forcePickSearchResult;
 @property (nonatomic, readonly) TITokenField * tokenField;
 @property (nonatomic, readonly) UIView * separator;
 @property (nonatomic, readonly) UITableView * resultsTable;
 @property (nonatomic, readonly) UIView * contentView;
 @property (nonatomic, copy) NSArray * sourceArray;
-@property (nonatomic, readonly) NSArray * tokenTitles;
+@property (weak, nonatomic, readonly) NSArray * tokenTitles;
 
 - (void)updateContentSize;
 
@@ -95,34 +77,17 @@ typedef enum {
 	TITokenFieldControlEventFrameDidChange = 1 << 25,
 } TITokenFieldControlEvents;
 
-@interface TITokenField : UITextField {
-	
-	id <TITokenFieldDelegate> delegate;
-	TITokenFieldInternalDelegate * internalDelegate;
-	
-	NSMutableArray * tokens;
-	TIToken * selectedToken;
-	
-	BOOL editable;
-	BOOL resultsModeEnabled;
-	BOOL removesTokensOnEndEditing;
-	
-	CGPoint tokenCaret;
-	int numberOfLines;
-	
-	NSCharacterSet * tokenizingCharacters;
-}
-
-@property (nonatomic, assign) id <TITokenFieldDelegate> delegate;
-@property (nonatomic, readonly) NSArray * tokens;
-@property (nonatomic, readonly) TIToken * selectedToken;
-@property (nonatomic, readonly) NSArray * tokenTitles;
-@property (nonatomic, readonly) NSArray * tokenObjects;
+@interface TITokenField : UITextField
+@property (nonatomic, weak) id <TITokenFieldDelegate> delegate;
+@property (weak, nonatomic, readonly) NSArray * tokens;
+@property (weak, nonatomic, readonly) TIToken * selectedToken;
+@property (weak, nonatomic, readonly) NSArray * tokenTitles;
+@property (weak, nonatomic, readonly) NSArray * tokenObjects;
 @property (nonatomic, assign) BOOL editable;
 @property (nonatomic, assign) BOOL resultsModeEnabled;
 @property (nonatomic, assign) BOOL removesTokensOnEndEditing;
 @property (nonatomic, readonly) int numberOfLines;
-@property (nonatomic, retain) NSCharacterSet * tokenizingCharacters;
+@property (nonatomic, strong) NSCharacterSet * tokenizingCharacters;
 
 - (void)addToken:(TIToken *)title;
 - (TIToken *)addTokenWithTitle:(NSString *)title;
@@ -151,28 +116,19 @@ typedef enum {
 	TITokenAccessoryTypeDisclosureIndicator = 1,
 } TITokenAccessoryType;
 
-@interface TIToken : UIControl {
-	
-	NSString * title;
-	id representedObject;
-	
-	UIFont * font;
-	UIColor * tintColor;
-	
-	TITokenAccessoryType accessoryType;
-	CGFloat maxWidth;
-}
-
+@interface TIToken : UIControl
 @property (nonatomic, copy) NSString * title;
-@property (nonatomic, retain) id representedObject;
-@property (nonatomic, retain) UIFont * font;
-@property (nonatomic, retain) UIColor * tintColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) id representedObject;
+@property (nonatomic, strong) UIFont * font;
+@property (nonatomic, strong) UIColor * textColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor * highlightedTextColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor * tintColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, assign) TITokenAccessoryType accessoryType;
 @property (nonatomic, assign) CGFloat maxWidth;
 
-- (id)initWithTitle:(NSString *)aTitle;
-- (id)initWithTitle:(NSString *)aTitle representedObject:(id)object;
-- (id)initWithTitle:(NSString *)aTitle representedObject:(id)object font:(UIFont *)aFont;
+- (instancetype)initWithTitle:(NSString *)aTitle;
+- (instancetype)initWithTitle:(NSString *)aTitle representedObject:(id)object;
+- (instancetype)initWithTitle:(NSString *)aTitle representedObject:(id)object font:(UIFont *)aFont;
 
 + (UIColor *)blueTintColor;
 + (UIColor *)redTintColor;

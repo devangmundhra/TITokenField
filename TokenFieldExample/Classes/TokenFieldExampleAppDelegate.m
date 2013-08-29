@@ -9,29 +9,25 @@
 #import "TokenFieldExampleAppDelegate.h"
 #import "TokenFieldExampleViewController.h"
 
-@implementation TokenFieldExampleAppDelegate
+@implementation TokenFieldExampleAppDelegate {
+	UIWindow * _window;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	
-	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	_window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
 	TokenFieldExampleViewController * viewController = [[TokenFieldExampleViewController alloc] init];
 	UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     [tabBarController setViewControllers:@[navigationController]];
-	[viewController release];
 	
-    [window setRootViewController:tabBarController];
-	[navigationController release];
+    [_window setRootViewController:tabBarController];
 	
-    [window makeKeyAndVisible];
+    [_window makeKeyAndVisible];
     
     return YES;
 }
 
-- (void)dealloc {
-    [window release];
-    [super dealloc];
-}
 
 @end
